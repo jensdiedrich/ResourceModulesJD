@@ -34,7 +34,7 @@ var enableReferencedModulesTelemetry = false
 module networkInterface_publicIPAddresses '../../../network/public-ip-addresses/main.bicep' = [for (ipConfiguration, index) in ipConfigurations: if (contains(ipConfiguration, 'pipconfiguration')) {
   name: '${deployment().name}-publicIP-${index}'
   params: {
-    name: '${virtualMachineName}${ipConfiguration.pipconfiguration.publicIpNameSuffix}'
+    name: '${ipConfiguration.pipconfiguration.publicIpNamePrefix}${virtualMachineName}${ipConfiguration.pipconfiguration.publicIpNameSuffix}'
     diagnosticEventHubAuthorizationRuleId: diagnosticEventHubAuthorizationRuleId
     diagnosticEventHubName: diagnosticEventHubName
     diagnosticLogCategoriesToEnable: pipdiagnosticLogCategoriesToEnable
@@ -66,7 +66,7 @@ module networkInterface '../../../network/network-interfaces/main.bicep' = {
       primary: index == 0
       privateIPAllocationMethod: contains(ipConfiguration, 'privateIPAllocationMethod') ? (!empty(ipConfiguration.privateIPAllocationMethod) ? ipConfiguration.privateIPAllocationMethod : null) : null
       privateIPAddress: contains(ipConfiguration, 'privateIPAddress') ? (!empty(ipConfiguration.privateIPAddress) ? ipConfiguration.privateIPAddress : null) : null
-      publicIPAddressResourceId: contains(ipConfiguration, 'pipconfiguration') ? resourceId('Microsoft.Network/publicIPAddresses', '${virtualMachineName}${ipConfiguration.pipconfiguration.publicIpNameSuffix}') : null
+      publicIPAddressResourceId: contains(ipConfiguration, 'pipconfiguration') ? resourceId('Microsoft.Network/publicIPAddresses', '${ipConfiguration.pipconfiguration.publicIpNamePrefix}${virtualMachineName}${ipConfiguration.pipconfiguration.publicIpNameSuffix}') : null
       subnetResourceId: ipConfiguration.subnetResourceId
       loadBalancerBackendAddressPools: contains(ipConfiguration, 'loadBalancerBackendAddressPools') ? ipConfiguration.loadBalancerBackendAddressPools : null
       applicationSecurityGroups: contains(ipConfiguration, 'applicationSecurityGroups') ? ipConfiguration.applicationSecurityGroups : null
