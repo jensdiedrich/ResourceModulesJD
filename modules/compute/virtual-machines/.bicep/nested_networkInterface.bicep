@@ -34,7 +34,8 @@ var enableReferencedModulesTelemetry = false
 module networkInterface_publicIPAddresses '../../../network/public-ip-addresses/main.bicep' = [for (ipConfiguration, index) in ipConfigurations: if (contains(ipConfiguration, 'pipconfiguration')) {
   name: '${deployment().name}-publicIP-${index}'
   params: {
-    name: '${ipConfiguration.pipconfiguration.publicIpNamePrefix}${virtualMachineName}${ipConfiguration.pipconfiguration.publicIpNameSuffix}'
+    name: '${ipConfiguration.pipConfiguration.publicIpNamePrefix}${virtualMachineName}${ipConfiguration.pipConfiguration.publicIpNameSuffix}'
+    domainNameLabel: contains(ipConfiguration.pipConfiguration, 'domainNameLabel') ? ipConfiguration.pipConfiguration.domainNameLabel : null
     diagnosticEventHubAuthorizationRuleId: diagnosticEventHubAuthorizationRuleId
     diagnosticEventHubName: diagnosticEventHubName
     diagnosticLogCategoriesToEnable: pipdiagnosticLogCategoriesToEnable
