@@ -35,10 +35,10 @@ param zones array = []
 ])
 param publicIPAddressVersion string = 'IPv4'
 
-@description('Optional. Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely.')
-@minValue(0)
-@maxValue(365)
-param diagnosticLogsRetentionInDays int = 365
+// @description('Optional. Specifies the number of days that logs will be kept for; a value of 0 will retain data indefinitely.')
+// @minValue(0)
+// @maxValue(365)
+// param diagnosticLogsRetentionInDays int = 365
 
 @description('Optional. Resource ID of the diagnostic storage account.')
 param diagnosticStorageAccountId string = ''
@@ -108,7 +108,7 @@ var diagnosticsLogsSpecified = [for category in filter(diagnosticLogCategoriesTo
   enabled: true
   retentionPolicy: {
     enabled: true
-    days: diagnosticLogsRetentionInDays
+    //days: diagnosticLogsRetentionInDays
   }
 }]
 
@@ -118,7 +118,7 @@ var diagnosticsLogs = contains(diagnosticLogCategoriesToEnable, 'allLogs') ? [
     enabled: true
     retentionPolicy: {
       enabled: true
-      days: diagnosticLogsRetentionInDays
+      //days: diagnosticLogsRetentionInDays
     }
   }
 ] : diagnosticsLogsSpecified
@@ -129,7 +129,7 @@ var diagnosticsMetrics = [for metric in diagnosticMetricsToEnable: {
   enabled: true
   retentionPolicy: {
     enabled: true
-    days: diagnosticLogsRetentionInDays
+    //days: diagnosticLogsRetentionInDays
   }
 }]
 
